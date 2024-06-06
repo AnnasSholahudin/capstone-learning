@@ -12,7 +12,7 @@ const prisma = new PrismaClient();
 const app = express();
 app.use(bodyParser.json());
 
-app.post("/login", async (req, res) => {
+app.post("/auth", async (req, res) => {
   const idToken = req.body.idToken;
   if (!idToken) {
     return res.status(400).send("ID token is required");
@@ -32,6 +32,9 @@ app.post("/login", async (req, res) => {
           googleId: uid,
         },
       });
+      return res
+        .status(201)
+        .send({ message: "User registered successfully", user: user });
     }
 
     res.status(200).send({ message: "Login successful", user: user });
